@@ -1,8 +1,7 @@
-
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
-export default function getUserData() {
+export function getUserData() {
   interface User {
     email: string;
   }
@@ -41,5 +40,20 @@ export default function getUserData() {
     }
   }, [session, status]);
 
-  return(userData)
+  return userData;
+}
+
+export function addVideotoDatabase(videoData: any, data: any) {
+  fetch(
+    `https://video-uploader-432f2-default-rtdb.firebaseio.com/data/${data[1]}/videos.json`,
+    {
+      method: "POST",
+      body: JSON.stringify(videoData),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  ).then(() => {
+    console.log("Video added to database successfully");
+  });
 }

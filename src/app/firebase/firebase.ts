@@ -1,7 +1,8 @@
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore,  } from 'firebase/firestore';
-
+import { getFirestore } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
 import { getDatabase, ref, set } from "firebase/database";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,13 +24,18 @@ const firebaseConfig = {
   projectId: "video-uploader-432f2",
   storageBucket: "video-uploader-432f2.appspot.com",
   messagingSenderId: "29752639365",
-  appId: "1:29752639365:web:0206d9dccb59c5938cceec"
+  appId: "1:29752639365:web:0206d9dccb59c5938cceec",
 };
 
 // Initialize Firebase
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
+firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+// const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
 const database = getDatabase(app);
 
-export { app, db, auth,database }
+const storage = firebase.storage();
+
+export { app, db, auth, database ,storage};

@@ -19,7 +19,7 @@ export default function Signup() {
         },
       }
     ).then(() => {
-      console.log("Data added to databse successfully");
+      console.log("Data added to database successfully");
       
     });
   }

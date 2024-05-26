@@ -1,7 +1,7 @@
 "use client";
 import { signOut } from "next-auth/react";
 
-import getUserData from "./firebase/getUserData";
+import getUserData from "./firebase/firebaseUtils";
 
 export default function Home() {
 
