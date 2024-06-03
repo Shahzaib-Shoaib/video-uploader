@@ -2,7 +2,7 @@
 import { addVideotoDatabase, getUserData } from "../firebase/firebaseUtils";
 import { PhotoIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import IDmaker from "../../../utils/IDmaker";
-import { storage } from "../firebase/firebase";
+import storage from "../firebase/firebase";
 import { useState } from "react";
 
 export default function Upload() {
