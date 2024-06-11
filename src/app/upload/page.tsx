@@ -1,5 +1,9 @@
 "use client";
-import { addVideotoDatabase, useUserData } from "../firebase/firebaseUtils";
+import {
+  addVideotoDatabase,
+  addVideotoMainDatabase,
+  useUserData,
+} from "../firebase/firebaseUtils";
 import { PhotoIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import IDmaker from "../../../utils/IDmaker";
 import storage from "../firebase/firebase";
@@ -128,9 +132,10 @@ export default function Upload() {
   };
 
   function upload() {
-    addVideotoDatabase(videoData, data);
     handleUploadImage();
     handleUploadVideo();
+    addVideotoDatabase(videoData, data);
+    addVideotoMainDatabase(videoData);
   }
 
   return (
