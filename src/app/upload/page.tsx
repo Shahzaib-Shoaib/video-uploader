@@ -7,77 +7,136 @@ import { useState } from "react";
 
 export default function Upload() {
   const data: any = getUserData();
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState<any>([]);
+  const [video, setVideo] = useState<any>([]);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  const [images, setImages] = useState([]);
-  const [urls, setUrls] = useState([]);
   const [progress, setProgress] = useState(0);
-
-  const handleUpload = () => {
+  const handleUploadImage = () => {
     const promises: any[] = [];
-    images.map((image: any) => {
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      promises.push(uploadTask);
-      uploadTask.on(
-        "state_changed",
-        (snapshot: any) => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          console.log(progress, "prog");
+    if (!image) {
+      console.log("No image selected");
+      return;
+    }
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    promises.push(uploadTask);
+    uploadTask.on(
+      "state_changed",
+      (snapshot: any) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress, "prog");
 
-          setProgress(progress);
-        },
-        (error: any) => {
-          console.log(error);
-        },
-        async () => {
-          await storage
-            .ref("images")
-            .child(image.name)
-            .getDownloadURL()
-            .then((urls: any) => {
-              setUrls((prevState): any => [...prevState, urls]);
-            });
-        }
-      );
-    });
+        setProgress(progress);
+      },
+      (error: any) => {
+        console.log(error);
+      },
+      async () => {
+        await storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+
+          .then((imageUrl) => {
+            setImageUrl(imageUrl);
+          });
+      }
+    );
 
     Promise.all(promises)
       .then(() => {
         console.log("All images uploaded");
-        console.log(urls);
+        console.log(imageUrl);
       })
       .catch((err) => console.log(err));
   };
 
-  const handleChange = (e: any) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage: any = e.target.files[i];
+  const handleChangeImage = (e: any) => {
+    if (e.target.files.length > 0) {
+      const newImage: any = e.target.files[0];
       newImage["id"] = Math.random();
-      setImages((prevState): any => [...prevState, newImage]);
+      setImage(newImage);
     }
   };
 
-  const video = {
+  const handleUploadVideo = () => {
+    const promises: any[] = [];
+    if (!video) {
+      console.log("No video selected");
+      return;
+    }
+
+    const uploadTask = storage.ref(`videos/${video.name}`).put(video);
+    promises.push(uploadTask);
+    uploadTask.on(
+      "state_changed",
+      (snapshot: any) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(progress, "prog");
+
+        setProgress(progress);
+      },
+      (error: any) => {
+        console.log(error);
+      },
+      async () => {
+        await storage
+          .ref("videos")
+          .child(video.name)
+
+          .getDownloadURL()
+
+          .then((videoUrl) => {
+            setVideoUrl(videoUrl);
+          });
+      }
+    );
+
+    Promise.all(promises)
+      .then(() => {
+        console.log("All videos uploaded");
+        console.log(videoUrl);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleChangeVideo = (e: any) => {
+    if (e.target.files.length > 0) {
+      const newVideo: any = e.target.files[0];
+      newVideo["id"] = Math.random();
+      setVideo(newVideo);
+    } else {
+      console.log("no uploaded videos found");
+    }
+  };
+
+  const videoData = {
     uploaderID: IDmaker(
       data[0]?.email != null ? data[0].email : "idk@gmail.com"
     ),
-    videoUrl: "https://example.com/video1.mp4",
-    thumbnailUrl: "https://example.com/photo1.jpeg",
-    title: "Video 1",
+    videoUrl: videoUrl,
+    thumbnailUrl: imageUrl,
+    title: title,
     createdTime: new Date().toISOString(),
   };
 
-  function uploadVideo() {
-    addVideotoDatabase(video, data);
-    handleUpload();
+  function upload() {
+    addVideotoDatabase(videoData, data);
+    handleUploadImage();
+    handleUploadVideo();
   }
 
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight ">
             Upload Video{" "}
           </h2>
         </div>
@@ -87,7 +146,7 @@ export default function Upload() {
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 "
               >
                 Video Title
               </label>
@@ -97,9 +156,9 @@ export default function Upload() {
                   name="title"
                   type="text"
                   autoComplete="title"
-                  // onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-1 border-gray-300 bg-white/5 py-1.5  shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -107,7 +166,7 @@ export default function Upload() {
             <div className="col-span-full">
               <label
                 htmlFor="cover-photo"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 "
               >
                 Cover photo
               </label>
@@ -128,7 +187,7 @@ export default function Upload() {
                         name="cover-photo"
                         type="file"
                         className="sr-only"
-                        onChange={handleChange}
+                        onChange={handleChangeImage}
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
@@ -140,28 +199,24 @@ export default function Upload() {
               </div>
             </div>
             <button
-              className="text-white bg-indigo-500 border-0 py-1 px-4 mt-3 focus:outline-none hover:bg-indigo-600 rounded text-sm"
-              onClick={handleUpload}
+              className=" bg-indigo-500 text-white border-0 py-1 px-4 mt-3 focus:outline-none hover:bg-indigo-600 rounded text-sm"
+              onClick={handleUploadImage}
             >
               Upload
             </button>
-            {/* <progress value={progress} max="100" className="rounded-sm ml-7" /> */}
-            <p className="text-white">{progress}%</p>
+            <p className="">{progress}%</p>
 
-            {urls.map((url, i) => (
-              <span key={i} className="flex-row">
-                <img
-                  key={i}
-                  style={{ width: "100px" }}
-                  src={url || "http://via.placeholder.com/300"}
-                  alt="firebase-image"
-                />
-              </span>
-            ))}
-            {/* <div className="col-span-full">
+            <span className="flex-row">
+              <img
+                style={{ width: "100px" }}
+                src={imageUrl || "http://via.placeholder.com/300"}
+                alt="firebase-image"
+              />
+            </span>
+            <div className="col-span-full">
               <label
                 htmlFor="video"
-                className="block text-sm font-medium leading-6 text-white"
+                className="block text-sm font-medium leading-6 "
               >
                 Video
               </label>
@@ -183,6 +238,7 @@ export default function Upload() {
                         name="video"
                         type="file"
                         className="sr-only"
+                        onChange={handleChangeVideo}
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
@@ -192,10 +248,29 @@ export default function Upload() {
                   </p>
                 </div>
               </div>
-            </div> */}
+            </div>
+            <button
+              className=" bg-indigo-500 text-white border-0 py-1 px-4 mt-3 focus:outline-none hover:bg-indigo-600 rounded text-sm"
+              onClick={handleUploadVideo}
+              // disabled=""
+            >
+              Upload
+            </button>
+            <p className="">{progress}%</p>
 
+            <span className="flex-row">
+              <img
+                style={{ width: "100px" }}
+                src={videoUrl || "http://via.placeholder.com/300"}
+                alt="firebase-image"
+              />
+            </span>
             <div>
-              <button className="disabled:opacity-40 flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+              <button
+                className="disabled:opacity-40 flex w-full justify-center rounded-md text-white bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6  shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                onClick={upload}
+                disabled={!videoUrl || !imageUrl}
+              >
                 Upload Video
               </button>
             </div>
