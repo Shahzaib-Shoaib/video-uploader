@@ -13,7 +13,8 @@ export default function Upload() {
   const [videoUrl, setVideoUrl] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const [progress, setProgress] = useState(0);
+  const [imageProgress, setImageProgress] = useState(0);
+  const [videoProgress, setVideoProgress] = useState(0);
   const handleUploadImage = () => {
     const promises: any[] = [];
     if (!image) {
@@ -25,12 +26,12 @@ export default function Upload() {
     uploadTask.on(
       "state_changed",
       (snapshot: any) => {
-        const progress = Math.round(
+        const imageProgress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        console.log(progress, "prog");
+        console.log(imageProgress, "prog");
 
-        setProgress(progress);
+        setImageProgress(imageProgress);
       },
       (error: any) => {
         console.log(error);
@@ -75,12 +76,12 @@ export default function Upload() {
     uploadTask.on(
       "state_changed",
       (snapshot: any) => {
-        const progress = Math.round(
+        const videoProgress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        console.log(progress, "prog");
+        console.log(videoProgress, "prog");
 
-        setProgress(progress);
+        setVideoProgress(videoProgress);
       },
       (error: any) => {
         console.log(error);
@@ -204,7 +205,7 @@ export default function Upload() {
             >
               Upload
             </button>
-            <p className="">{progress}%</p>
+            <p className="">{imageProgress}%</p>
 
             <span className="flex-row">
               <img
@@ -256,7 +257,7 @@ export default function Upload() {
             >
               Upload
             </button>
-            <p className="">{progress}%</p>
+            <p className="">{videoProgress}%</p>
 
             <span className="flex-row">
               <img

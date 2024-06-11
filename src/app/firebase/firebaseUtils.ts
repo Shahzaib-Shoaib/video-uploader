@@ -42,7 +42,6 @@ import { redirect } from "next/navigation";
 
 //   return userData;
 // }
-import { useRouter } from "next/router"; // Updated from next/navigation for client-side navigation
 
 export function useUserData() {
   interface User {
