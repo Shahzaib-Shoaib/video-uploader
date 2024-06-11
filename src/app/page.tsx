@@ -2,10 +2,10 @@
 import { signOut } from "next-auth/react";
 import Header from "@/components/header";
 
-import { getUserData } from "./firebase/firebaseUtils";
+import { useUserData } from "./firebase/firebaseUtils";
 
 export default function Home() {
-  const userData = getUserData();
+  const userData = useUserData();
 
   console.log(userData);
 

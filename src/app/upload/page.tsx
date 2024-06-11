@@ -1,12 +1,12 @@
 "use client";
-import { addVideotoDatabase, getUserData } from "../firebase/firebaseUtils";
+import { addVideotoDatabase, useUserData } from "../firebase/firebaseUtils";
 import { PhotoIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import IDmaker from "../../../utils/IDmaker";
 import storage from "../firebase/firebase";
 import { useState } from "react";
 
 export default function Upload() {
-  const data: any = getUserData();
+  const data: any = useUserData();
   const [title, setTitle] = useState("");
   const [image, setImage] = useState<any>([]);
   const [video, setVideo] = useState<any>([]);
