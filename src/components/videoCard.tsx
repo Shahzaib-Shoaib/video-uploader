@@ -19,7 +19,7 @@ export default function VideoCard(video: any) {
               <p className="mb-8 text-gray-600">{video.video.createdTime}</p>
               <div className="flex justify-between">
                 <a
-                  href="#"
+                  href={video.video.videoUrl}
                   className="group text-lg font-bold focus:text-indigo-600 hover:text-indigo-600"
                 >
                   <span>▷ </span>
