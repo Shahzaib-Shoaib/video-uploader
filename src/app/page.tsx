@@ -1,11 +1,11 @@
 "use client";
 import Header from "@/components/header";
 
-import { getAllVideosFromDB, useUserData } from "./firebase/firebaseUtils";
+import { useAllVideosFromDB, useUserData } from "./firebase/firebaseUtils";
 
 export default function Home() {
   const userData = useUserData();
-  const videosData = getAllVideosFromDB();
+  const videosData = useAllVideosFromDB();
 
   console.log(videosData);
 
