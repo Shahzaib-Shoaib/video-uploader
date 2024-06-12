@@ -20,7 +20,7 @@ import Link from "next/link";
 const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "Upload", href: "/upload", current: false },
-  // { name: "Projects", href: "#", current: false },
+  { name: "My Videos", href: "/my-videos", current: false },
   // { name: "Calendar", href: "#", current: false },
 ];
 

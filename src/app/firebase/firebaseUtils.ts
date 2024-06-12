@@ -3,10 +3,6 @@ import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 
 export function useUserData() {
-  interface User {
-    email: string;
-  }
-
   const { data: session, status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -14,7 +10,7 @@ export function useUserData() {
     },
   });
 
-  const [userData, setUserData] = useState<User[]>([]);
+  const [userData, setUserData] = useState<any>([]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -101,5 +97,3 @@ export function useAllVideosFromDB() {
 
   return videosData;
 }
-
-
