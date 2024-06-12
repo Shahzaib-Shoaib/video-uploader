@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Disclosure,
   DisclosureButton,
@@ -9,14 +9,19 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { Bars3Icon, UserCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  UserCircleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 
 const navigation = [
-  { name: "Dashboard", href: "#", current: false },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
+  { name: "Home", href: "/", current: false },
+  { name: "Upload", href: "/upload", current: false },
+  // { name: "Projects", href: "#", current: false },
+  // { name: "Calendar", href: "#", current: false },
 ];
 
 function classNames(...classes: any) {
@@ -53,7 +58,7 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className={classNames(
@@ -65,21 +70,19 @@ export default function Header() {
                         aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-               
-
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
                   <div>
                     <MenuButton className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <UserCircleIcon className=" text-gray-400 h-6 w-6 "/>
+                      <UserCircleIcon className=" text-gray-400 h-6 w-6 " />
                       {/* <img
                         className="h-8 w-8 rounded-full"
                         src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"

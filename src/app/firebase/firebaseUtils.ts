@@ -117,3 +117,31 @@ export function addVideotoMainDatabase(videoData: any) {
     console.log("Video added to database successfully");
   });
 }
+
+export function getAllVideosFromDB() {
+  const [videosData, setVideosData] = useState<any>([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch(
+          "https://video-uploader-432f2-default-rtdb.firebaseio.com/videos.json"
+        );
+        const data = await response.json();
+
+        const fetchedVideoData: any = Object.keys(data).map((key) => ({
+          id: key,
+          ...data[key],
+        }));
+
+        setVideosData(fetchedVideoData);
+      } catch (error) {
+        console.error("Error fetching data:");
+      }
+    };
+
+    fetchVideos();
+  }, []); // Ensure the dependency array is correctly placed
+
+  return videosData;
+}

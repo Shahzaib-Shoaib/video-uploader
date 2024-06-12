@@ -192,6 +192,7 @@ export default function Upload() {
                         id="cover-photo"
                         name="cover-photo"
                         type="file"
+                        accept="image/*"
                         className="sr-only"
                         onChange={handleChangeImage}
                       />
@@ -241,6 +242,7 @@ export default function Upload() {
                       <span>Upload a file</span>
                       <input
                         id="video"
+                        accept="video/*"
                         name="video"
                         type="file"
                         className="sr-only"
