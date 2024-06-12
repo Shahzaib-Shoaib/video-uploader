@@ -4,7 +4,7 @@ import React from "react";
 import { useUserData } from "../firebase/firebaseUtils";
 import VideoCard from "@/components/videoCard";
 
-export default function myVideos() {
+export default function MyVideos() {
   const data: any = useUserData();
   function transformVideoData(data: any) {
     if (!data) return [];
