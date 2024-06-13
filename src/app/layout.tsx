@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import "./globals.css";
 import SessionProvider from "./SessionProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 export default async function RootLayout({
   children,
@@ -14,6 +15,7 @@ export default async function RootLayout({
           {" "}
           {/* <Header /> */}
           {children}
+          <Analytics />
         </SessionProvider>
       </body>
     </html>
