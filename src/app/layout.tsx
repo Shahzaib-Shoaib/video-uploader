@@ -15,8 +15,9 @@ export default async function RootLayout({
           {" "}
           {/* <Header /> */}
           {children}
-          <Analytics />
         </SessionProvider>
+        <Analytics />
+
       </body>
     </html>
   );
